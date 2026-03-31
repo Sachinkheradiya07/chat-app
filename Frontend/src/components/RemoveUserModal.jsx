@@ -21,7 +21,7 @@ const RemoveUserModal = ({ chat, onRemove, onClose }) => {
         userId: selectedUserId
       });
 
-      onRemove(res.data);
+      onRemove(res.data.chat);
       setSelectedUserId('');
       onClose();
     } catch (error) {

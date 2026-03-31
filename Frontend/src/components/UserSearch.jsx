@@ -30,7 +30,7 @@ const UserSearch = ({ onUserSelect, onClose }) => {
   const handleSelectUser = async (user) => {
     try {
       const res = await API.post('/chats/access', { userId: user._id });
-      onUserSelect(res.data);
+      onUserSelect(res.data.chat);
       setSearch('');
       setResults([]);
       onClose();

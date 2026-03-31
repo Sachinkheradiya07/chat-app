@@ -134,7 +134,7 @@ const ChatWindow = ({ selectedChat, currentUser, socket, onlineUsers, setNotific
   const fetchMessages = async () => {
     try {
       const res = await API.get(`/messages/${selectedChat._id}`);
-      setMessages(res.data || []);
+      setMessages(res.data?.messages || []);
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
@@ -188,7 +188,7 @@ const ChatWindow = ({ selectedChat, currentUser, socket, onlineUsers, setNotific
 
       // Emit to socket so all clients get the message via socket event
       if (socket) {
-        socket.emit('new message', res.data);
+        socket.emit('new message', res.data.message);
       }
       // Don't add to state here - let the socket 'newMessage' event handle it
     } catch (error) {

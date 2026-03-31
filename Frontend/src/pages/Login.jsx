@@ -24,6 +24,13 @@ export const Login = ({ onLoginSuccess }) => {
     setLoading(true);
     setMessage("");
 
+    const { email, password } = formData;
+    if (!email.trim() || !password.trim()) {
+      setMessage("Please fill in all required fields");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await API.post("/users/login", formData);
 
@@ -56,14 +63,13 @@ export const Login = ({ onLoginSuccess }) => {
         {message}
       </p>}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <input 
           type="email" 
           name="email" 
           placeholder="Enter your email" 
           value={formData.email} 
           onChange={handleChange}
-          required 
         />
         <input 
           type="password" 
@@ -71,14 +77,13 @@ export const Login = ({ onLoginSuccess }) => {
           placeholder="Enter your password" 
           value={formData.password} 
           onChange={handleChange}
-          required 
         />
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
 
-      <p>
+      <p className="switch-text">
         Don't have an account? 
         <Link to="/register" className="switch-link">
           Register here

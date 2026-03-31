@@ -25,6 +25,13 @@ export const Register = () => {
     setLoading(true);
     setMessage("");
 
+    const { name, email, password } = formData;
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      setMessage("Please fill in all required fields");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await API.post("/users/register", formData);
       
@@ -54,14 +61,13 @@ export const Register = () => {
         {message}
       </p>}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <input 
           type="text" 
           name="name" 
           placeholder="Enter your name" 
           value={formData.name} 
           onChange={handleChange}
-          required 
         />
         <input 
           type="email" 
@@ -69,7 +75,6 @@ export const Register = () => {
           placeholder="Enter your email" 
           value={formData.email} 
           onChange={handleChange}
-          required 
         />
         <input 
           type="password" 
@@ -77,14 +82,13 @@ export const Register = () => {
           placeholder="Enter your password" 
           value={formData.password} 
           onChange={handleChange}
-          required 
         />
         <button type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
       </form>
 
-      <p>
+      <p className="switch-text">
         Already have an account? 
         <Link to="/login" className="switch-link">
           Login here

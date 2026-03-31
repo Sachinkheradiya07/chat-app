@@ -48,17 +48,10 @@ const Sidebar = ({ currentUser, selectedChat, setSelectedChat, chats = [], setCh
         </div>
       </div>
 
-      <div className="search-bar">
-        <input 
-          type="text" 
-          placeholder="Search chats..." 
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
+      
 
       <div className="chat-list">
-        {chatList.map((chat) => {
+        {(Array.isArray(chatList) ? chatList : []).map((chat) => {
           // For one-on-one chats, show the other user's name
           let displayChatName = chat.chatName || chat.name;
           if (!chat.isGroupChat && chat.users && chat.users.length > 0) {

@@ -78,7 +78,18 @@ const Dashboard = ({ currentUser, onLogout }) => {
     setLoading(true);
     try {
       const res = await API.get('/chats');
-      setChats(res.data || []);
+      const payload = res.data;
+      let chatsFromServer = [];
+
+      if (payload && Array.isArray(payload.chats)) {
+        chatsFromServer = payload.chats;
+      } else if (payload && payload.success && payload.chat && typeof payload.chat === 'object') {
+        chatsFromServer = [payload.chat];
+      } else {
+        console.warn('Unexpected chats response:', payload);
+      }
+
+      setChats(chatsFromServer);
     } catch (error) {
       console.error('Error fetching chats:', error);
       setChats([]);

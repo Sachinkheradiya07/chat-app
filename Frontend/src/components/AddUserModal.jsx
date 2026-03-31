@@ -41,7 +41,7 @@ const AddUserModal = ({ chat, onAdd, onClose }) => {
         chatId: chat._id,
         userId: selectedUserId
       });
-      onAdd(res.data);
+      onAdd(res.data.chat);
       setSelectedUserId('');
       onClose();
     } catch (err) {
