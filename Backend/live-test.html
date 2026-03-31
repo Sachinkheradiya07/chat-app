@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Chat Test</title>
+</head>
+<body>
+  <h2>Live Message Test</h2>
+  <p><strong>Socket ID:</strong> <span id="socketId">Connecting...</span></p>
+  
+  <input id="chatIdInput" placeholder="Enter Chat ID" style="width: 300px; padding: 8px;">
+  <button onclick="joinChat()">Join Chat</button>
+
+  <div id="messages" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px; min-height: 300px;"></div>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script>
+    const socket = io("http://localhost:8080");
+
+    socket.on("connect", () => {
+      document.getElementById("socketId").textContent = socket.id;
+      console.log("Connected with ID:", socket.id);
+    });
+
+    function joinChat() {
+      const chatId = document.getElementById("chatIdInput").value.trim();
+      if (chatId) {
+        socket.emit("joinChat", chatId);
+        alert("Joined chat: " + chatId);
+      }
+    }
+
+    // Live message receive
+    socket.on("newMessage", (message) => {
+      const div = document.createElement("p");
+      div.innerHTML = `<strong>${message.sender.name}:</strong> ${message.content}`;
+      div.style.margin = "5px 0";
+      document.getElementById("messages").appendChild(div);
+    });
+  </script>
+</body>
+</html>
