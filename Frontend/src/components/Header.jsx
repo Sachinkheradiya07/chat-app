@@ -13,7 +13,7 @@ export const Header = ({ currentUser, onLogout, notificationCount = 0, onMenuCli
         <div className="user-profile">
           <div className="profile-photo">{currentUser?.name?.[0] || "U"}</div>
           <div className="profile-meta">
-            <div className="profile-name">{currentUser?.name || "Guest User"}</div>
+            <div className="profile-name">{"YOU"}</div>
             <div className="profile-status">Online</div>
           </div>
         </div>

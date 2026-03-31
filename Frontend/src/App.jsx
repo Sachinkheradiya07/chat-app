@@ -59,7 +59,7 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/login"
+          path="/"
           element={
             isLoggedIn ? (
               <Navigate to="/dashboard" replace />
@@ -84,17 +84,17 @@ function App() {
             isLoggedIn ? (
               <Dashboard currentUser={currentUser} onLogout={handleLogout} />
             ) : (
-              <Navigate to="/login" replace />
+              <Navigate to="/" replace />
             )
           }
         />
         <Route
           path="/"
-          element={<Navigate to={isLoggedIn ? '/dashboard' : '/login'} replace />}
+          element={<Navigate to={isLoggedIn ? '/dashboard' : '/'} replace />}
         />
         <Route
           path="*"
-          element={<Navigate to={isLoggedIn ? '/dashboard' : '/login'} replace />}
+          element={<Navigate to={isLoggedIn ? '/dashboard' : '/'} replace />}
         />
       </Routes>
     </Router>
