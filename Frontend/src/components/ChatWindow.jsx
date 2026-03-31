@@ -225,7 +225,7 @@ const ChatWindow = ({ selectedChat, currentUser, socket, onlineUsers, setNotific
       statusText = isOnline ? 'online' : 'offline';
     }
   } else if (selectedChat.isGroupChat) {
-    const members = selectedChat.users?.map(u => u._id) || [];
+    const members = (selectedChat.users || []).map(u => u._id) || [];
     const onlineCount = members.filter(id => onlineUsers?.includes(id)).length;
     statusText = `${onlineCount}/${members.length} online`;
   }

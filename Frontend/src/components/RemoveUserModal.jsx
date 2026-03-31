@@ -32,7 +32,7 @@ const RemoveUserModal = ({ chat, onRemove, onClose }) => {
     }
   };
 
-  const removableUsers = chat.users.filter(user => 
+  const removableUsers = (chat.users || []).filter(user => 
     user._id !== chat.groupAdmin._id
   );
 

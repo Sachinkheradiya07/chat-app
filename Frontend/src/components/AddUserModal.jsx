@@ -22,7 +22,7 @@ const AddUserModal = ({ chat, onAdd, onClose }) => {
   }, []);
 
   const availableUsers = allUsers
-    .filter(user => !chat.users.some(u => u._id === user._id))
+    .filter(user => !(chat.users || []).some(u => u._id === user._id))
     .filter(user =>
       user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase())

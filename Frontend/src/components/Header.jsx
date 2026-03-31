@@ -11,12 +11,7 @@ export const Header = ({ currentUser, onLogout, notificationCount = 0, onMenuCli
       <div className="header-left">
         <button className="menu-btn" aria-label="Open menu" onClick={onMenuClick}>☰</button>
         <div className="user-profile">
-          <img
-            className="profile-photo"
-            src={currentUser?.photoURL || "https://via.placeholder.com/40x40.png?text=" + (currentUser?.name?.[0] || "U")}
-            alt="Profile"
-            onError={(e) => { e.target.src = "https://via.placeholder.com/40x40.png?text=U"; }}
-          />
+          <div className="profile-photo">{currentUser?.name?.[0] || "U"}</div>
           <div className="profile-meta">
             <div className="profile-name">{currentUser?.name || "Guest User"}</div>
             <div className="profile-status">Online</div>
