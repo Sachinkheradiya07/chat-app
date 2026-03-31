@@ -9,6 +9,7 @@ export const sendMessage = async (req, res) => {
 
     if (!content || !content.trim() || !chatId) {
         return res.status(400).json({ 
+            success: false,
             message: "Content and chatId are required" 
         });
     }
@@ -52,13 +53,13 @@ export const sendMessage = async (req, res) => {
         }
         // =================================================================
 
-        res.status(201).json(message);
+        res.status(201).json({ success: true, message });
 
     } catch (error) {
         console.error("Send Message Error:", error);
         res.status(500).json({ 
-            message: "Failed to send message",
-            error: error.message 
+            success: false,
+            message: "Failed to send message. Please try again."
         });
     }
 };
@@ -70,10 +71,10 @@ export const allMessages = async (req, res) => {
             .populate("chat")
             .sort({ createdAt: 1 });
 
-        res.status(200).json(messages);
+        res.status(200).json({ success: true, messages });
     } catch (error) {
         console.error("All Messages Error:", error);
-        res.status(400).json({ message: error.message });
+        res.status(500).json({ success: false, message: 'Failed to fetch messages. Please try again.' });
     }
 };
 
@@ -122,11 +123,11 @@ export const markAsRead = async (req, res) => {
 
     // ✅ Validation
     if (!messageIds || messageIds.length === 0) {
-        return res.status(400).json({ message: "messageIds are required" });
+        return res.status(400).json({ success: false, message: "messageIds are required" });
     }
 
     if (!userId) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
     try {
@@ -157,6 +158,6 @@ export const markAsRead = async (req, res) => {
 
     } catch (error) {
         console.error("Mark as Read Error:", error);
-        res.status(500).json({ message: "Failed to mark messages as read" });
+        res.status(500).json({ success: false, message: "Failed to mark messages as read. Please try again." });
     }
 };

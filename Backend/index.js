@@ -8,6 +8,7 @@ import cors from 'cors';
 import userRoutes from './route/user.route.js';
 import messageRoutes from './route/message.route.js';
 import chatRoutes from './route/chat.route.js';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 dotenv.config();
 
@@ -42,8 +43,14 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/chats', chatRoutes);
 
 app.get('/', (req, res) => {
-    res.json({ message: "Server is running with Socket.IO " });
+    res.json({ success: true, message: "Server is running with Socket.IO" });
 });
+
+// 404 Handler
+app.use(notFoundHandler);
+
+// Global Error Handler (MUST be LAST)
+app.use(errorHandler);
 
 // ====================== SOCKET.IO LOGIC ======================
 io.on('connection', (socket) => {
