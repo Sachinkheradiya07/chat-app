@@ -203,8 +203,7 @@ const ChatWindow = ({ selectedChat, currentUser, socket, onlineUsers, setNotific
     return (
       <div className="no-chat">
         <div className="no-chat-content">
-          <h2>Welcome to WhatsApp</h2>
-          <p>Select a chat to start messaging</p>
+          <h2>Select a chat to start messaging</h2>
         </div>
       </div>
     );
@@ -231,34 +230,38 @@ const ChatWindow = ({ selectedChat, currentUser, socket, onlineUsers, setNotific
   }
 
   return (
-    <div className="chat-window">
+    <div className="chat-window d-flex flex-column h-100">
       {/* Chat Header */}
-      <div className="chat-header">
-        <div className="chat-header-left">
-          <button className="back-btn" onClick={onBack}>&larr;</button>
+      <div className="chat-header d-flex justify-content-between align-items-center p-3 border-bottom">
+        <div className="chat-header-left d-flex align-items-center gap-2">
+          {onBack && (
+            <button className="back-btn btn btn-light btn-sm rounded-circle" onClick={onBack} aria-label="Back to chats">
+              ←
+            </button>
+          )}
           <div className="avatar">{chatAvatar}</div>
           <div>
-            <h3>{displayName}</h3>
-            <p className={statusText.startsWith('online') ? 'online' : 'offline'}>{statusText}</p>
+            <h3 className="mb-0 fs-6">{displayName}</h3>
+            <p className={`mb-0 small ${statusText.startsWith('online') ? 'text-success' : 'text-muted'}`}>{statusText}</p>
           </div>
         </div>
-        <div className="chat-header-right">
+        <div className="chat-header-right d-flex gap-2">
           {selectedChat.isGroupChat && selectedChat.groupAdmin?._id === currentUser?._id && (
             <>
-              <button className="add-user-btn" onClick={() => setShowAddUsers(true)}>
+              <button className="btn btn-sm btn-primary" onClick={() => setShowAddUsers(true)}>
                 Add Member
               </button>
-              <button className="remove-user-btn" onClick={() => setShowRemoveUsers(true)}>
+              <button className="btn btn-sm btn-danger" onClick={() => setShowRemoveUsers(true)}>
                 Remove Member
               </button>
             </>
           )}
-          <span>⋯</span>
+          <span className="cursor-pointer">⋯</span>
         </div>
       </div>
 
       {/* Messages Area */}
-      <div className="messages-area">
+      <div className="messages-area d-flex flex-column gap-3 flex-grow-1 overflow-auto p-3">
         {messages.length === 0 ? (
           <div style={{ textAlign: 'center', color: '#ccc', padding: '20px' }}>
             Start a conversation
@@ -349,9 +352,9 @@ const ChatWindow = ({ selectedChat, currentUser, socket, onlineUsers, setNotific
       )}
 
       {/* Message Input */}
-      <form className="message-input-container" onSubmit={handleSendMessage}>
-        <button type="button" className="input-icon">😀</button>
-        <button type="button" className="input-icon">📎</button>
+      <form className="message-input-container d-flex align-items-center gap-2 p-3 border-top" onSubmit={handleSendMessage}>
+        <button type="button" className="btn btn-link text-muted">😀</button>
+        <button type="button" className="btn btn-link text-muted">📎</button>
         <input 
           type="text" 
           placeholder="Type a message" 
@@ -360,7 +363,7 @@ const ChatWindow = ({ selectedChat, currentUser, socket, onlineUsers, setNotific
           onChange={(e) => setMessageInput(e.target.value)}
           disabled={loading}
         />
-        <button type="submit" className="send-btn" disabled={loading}>
+        <button type="submit" className="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" disabled={loading} style={{width: '40px', height: '40px'}}>
           {loading ? '...' : '➤'}
         </button>
       </form>

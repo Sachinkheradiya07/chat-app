@@ -36,21 +36,29 @@ const Sidebar = ({ currentUser, selectedChat, setSelectedChat, chats = [], setCh
   const chatList = searchTerm ? filteredChats : displayChats;
 
   return (
-    <div className="sidebar">
-      <div className="sidebar-header">
-        <div className="user-info">
+    <div className="sidebar card border-end h-100">
+      <div className="sidebar-header d-flex justify-content-between align-items-center p-3 border-bottom">
+        <div className="user-info d-flex align-items-center gap-2">
           <div className="avatar">{currentUser?.name?.[0] || "U"}</div>
-          <span>{currentUser?.name || "My Account"}</span>
+          <span className="fw-bold">{currentUser?.name || "My Account"}</span>
         </div>
-        <div className="header-icons">
-          <button className="icon-btn" onClick={() => setShowUserSearch(true)}>✚</button>
-          <button className="icon-btn" onClick={() => setShowGroupModal(true)}>👥</button>
+        <div className="header-icons d-flex gap-2">
+          <button className="icon-btn btn btn-sm btn-light" onClick={() => setShowUserSearch(true)} title="New chat">✚</button>
+          <button className="icon-btn btn btn-sm btn-light" onClick={() => setShowGroupModal(true)} title="Create group">👥</button>
         </div>
       </div>
 
-      
+      <div className="search-bar p-2 border-bottom">
+        <input
+          type="text"
+          className="form-control rounded-pill"
+          placeholder="Search chats, users, groups..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
-      <div className="chat-list">
+      <div className="chat-list flex-grow-1 overflow-auto">
         {(Array.isArray(chatList) ? chatList : []).map((chat) => {
           // For one-on-one chats, show the other user's name
           let displayChatName = chat.chatName || chat.name;
@@ -62,14 +70,14 @@ const Sidebar = ({ currentUser, selectedChat, setSelectedChat, chats = [], setCh
           return (
             <div
               key={chat._id || chat.id}
-              className={`chat-item ${selectedChat?._id === chat._id ? 'active' : ''}`}
+              className={`chat-item d-flex p-3 border-bottom cursor-pointer ${selectedChat?._id === chat._id ? 'active bg-light border-start border-5 border-primary' : ''}`}
               onClick={() => setSelectedChat(chat)}
             >
-                  <div className="avatar">
+                  <div className="avatar me-2">
                 {chat.users?.[0]?.name?.[0] || chat.chatName?.[0] || "U"}
               </div>
-              <div className="chat-info">
-                <div className="chat-name">
+              <div className="chat-info flex-grow-1 min-width-0">
+                <div className="chat-name d-flex align-items-center gap-2">
                 <span className="chat-title-text">{displayChatName}</span>
                 {chat.users && chat.users.length > 0 && (() => {
                   if (chat.isGroupChat) {

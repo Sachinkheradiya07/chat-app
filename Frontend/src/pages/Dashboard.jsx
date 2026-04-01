@@ -14,7 +14,8 @@ const Dashboard = ({ currentUser, onLogout }) => {
   const [loading, setLoading] = useState(true);
   const [notificationCount, setNotificationCount] = useState(0);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1000);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
 
   useEffect(() => {
     // Request notification permission on dashboard load
@@ -74,6 +75,21 @@ const Dashboard = ({ currentUser, onLogout }) => {
     };
   }, [currentUser?._id, selectedChat]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 1000;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setIsSidebarOpen(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const fetchChats = async () => {
     setLoading(true);
     try {
@@ -108,13 +124,17 @@ const Dashboard = ({ currentUser, onLogout }) => {
           selectedChat={selectedChat}
           setSelectedChat={(chat) => {
             setSelectedChat(chat);
-            setIsSidebarOpen(false);
+            if (isMobile) {
+              setIsSidebarOpen(false);
+            }
             setNotificationCount(0);
           }}
           chats={chats}
           setChats={setChats}
           onlineUsers={onlineUsers}
         />
+
+        {(isSidebarOpen && isMobile) && <div className="sidebar-backdrop" onClick={() => setIsSidebarOpen(false)} />}
 
         <ChatWindow 
           selectedChat={selectedChat}
