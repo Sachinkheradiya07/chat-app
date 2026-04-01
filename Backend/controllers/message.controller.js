@@ -1,4 +1,3 @@
-// controllers/message.controller.js
 import Message from '../models/message.model.js';
 import User from '../models/user.model.js';
 import Chat from '../models/chat.model.js';
@@ -77,44 +76,6 @@ export const allMessages = async (req, res) => {
         res.status(500).json({ success: false, message: 'Failed to fetch messages. Please try again.' });
     }
 };
-
-// export const markAsRead = async (req, res) => {
-//     const { chatId } = req.body;
-
-//     if (!chatId) {
-//         return res.status(400).json({ message: "chatId is required" });
-//     }
-
-//     try {
-//         const result = await Message.updateMany(
-//             {
-//                 chat: chatId,
-//                 sender: { $ne: req.user._id },     // Sender ke alawa sab
-//                 readBy: { $ne: req.user._id }      // Jo abhi tak unread hai
-//             },
-//             {
-//                 $addToSet: { readBy: req.user._id }   // Add user to readBy array
-//             }
-//         );
-
-//         // Real-time update bhejo
-//         io.to(chatId).emit("messagesRead", {
-//             chatId,
-//             userId: req.user._id,
-//             readBy: req.user._id
-//         });
-
-//         res.status(200).json({
-//             success: true,
-//             message: "Messages marked as read",
-//             updatedCount: result.modifiedCount
-//         });
-
-//     } catch (error) {
-//         console.error("Mark as Read Error:", error);
-//         res.status(500).json({ message: "Failed to mark messages as read" });
-//     }
-// };
 
 export const markAsRead = async (req, res) => {
     const { messageIds } = req.body;   // 🔥 array of messageIds
