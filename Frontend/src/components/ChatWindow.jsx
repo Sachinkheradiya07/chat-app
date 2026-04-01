@@ -353,7 +353,6 @@ const ChatWindow = ({ selectedChat, currentUser, socket, onlineUsers, setNotific
 
       {/* Message Input */}
       <form className="message-input-container d-flex align-items-center gap-2 p-3 border-top" onSubmit={handleSendMessage}>
-        <button type="button" className="btn btn-link text-muted">😀</button>
         <button type="button" className="btn btn-link text-muted">📎</button>
         <input 
           type="text" 
